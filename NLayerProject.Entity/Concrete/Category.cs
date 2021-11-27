@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayerProject.Core.Entities
+namespace NLayerProject.Entity.Concrete
 {
     internal class Category
     {
