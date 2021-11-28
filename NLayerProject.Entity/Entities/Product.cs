@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayerProject.Entity.Concrete
+namespace NLayerProject.Entity.Entities
 {
-    internal class Product
+    public class Product
     {
         public int ProductID { get; set; }
         public string Name { get; set; }

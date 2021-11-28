@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayerProject.Entity.Concrete
+namespace NLayerProject.Entity.Entities
 {
-    internal class Category
+    public class Category
     {
         public Category()
         {
