@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NLayerProject.Core.DataAccess.EntityFramework;
+using NLayerProject.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace NLayerProject.Data.Repository.EntityFramework
     {
         protected readonly DbContext _context;
         private readonly DbSet<TEntity> _dbSet;
-        public Repository(DbContext context)
+        public Repository(AppDbContext context)
         {
             _context = context;
             _dbSet=context.Set<TEntity>();
@@ -28,9 +29,9 @@ namespace NLayerProject.Data.Repository.EntityFramework
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Where(Expression<Func<TEntity, bool>> predicate)
         {
-            return  _dbSet.Where(predicate);
+            return await _dbSet.Where(predicate).ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
