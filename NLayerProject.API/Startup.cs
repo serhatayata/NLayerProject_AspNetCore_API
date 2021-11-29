@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NLayerProject.Core.UnitOfWork;
+using NLayerProject.Data.Context;
+using NLayerProject.Data.UnitOfWorks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +30,13 @@ namespace NLayerProject.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionStrings:SqlConStr"].ToString(),a=> {
+                    a.MigrationsAssembly("NLayerProject.Data");
+                });
+            });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
