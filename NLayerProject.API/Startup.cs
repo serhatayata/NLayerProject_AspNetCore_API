@@ -45,6 +45,7 @@ namespace NLayerProject.API
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
