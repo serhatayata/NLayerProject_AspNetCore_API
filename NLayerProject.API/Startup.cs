@@ -8,9 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NLayerProject.Core.DataAccess.EntityFramework;
+using NLayerProject.Core.Services;
 using NLayerProject.Core.UnitOfWork;
 using NLayerProject.Data.Context;
+using NLayerProject.Data.Repository.EntityFramework;
 using NLayerProject.Data.UnitOfWorks;
+using NLayerProject.Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +41,10 @@ namespace NLayerProject.API
                 });
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IEfRepository<>),typeof(Repository<>));
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
