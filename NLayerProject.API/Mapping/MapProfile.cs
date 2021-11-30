@@ -15,6 +15,12 @@ namespace NLayerProject.API.Mapping
             CreateMap<Category, CategoryDTO>();
             CreateMap<CategoryDTO, Category>();
 
+            CreateMap<Category, CategoryWithProductDTO>();
+            CreateMap<CategoryWithProductDTO, Category > ();
+
+            CreateMap<Product, ProductDTO>();
+            CreateMap<ProductDTO, Product>();
+            
         }
     }
 }
