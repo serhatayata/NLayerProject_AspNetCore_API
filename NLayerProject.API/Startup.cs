@@ -47,6 +47,10 @@ namespace NLayerProject.API
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NLayerProject.API", Version = "v1" });

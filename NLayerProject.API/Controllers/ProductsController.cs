@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLayerProject.API.Filters;
 using NLayerProject.Core.Services;
 using NLayerProject.Entity.DTOs;
 using NLayerProject.Entity.Entities;
@@ -35,8 +36,36 @@ namespace NLayerProject.API.Controllers
             return Ok(_mapper.Map<ProductDTO>(product));
         }
 
+        [HttpGet("{id}/category")]
+        public async Task<IActionResult> GetWithCategoryById(int id)
+        {
+            var product = await _productService.GetWithCategoryByIdAsync(id);
+            return Ok(_mapper.Map<ProductWithCategoryDTO>(product));
+        }
+        [ValidationFilter]
+        [HttpPost]
+        public async Task<IActionResult> Save(ProductDTO entity)
+        {
+            var newProduct = await _productService.AddASync(_mapper.Map<Product>(entity));
+            return Created(String.Empty, _mapper.Map<ProductDTO>(newProduct));
+        }
 
+        [HttpPut]
+        public IActionResult Update(ProductDTO productDTO)
+        {
+            var product = _productService.Update(_mapper.Map<Product>(productDTO));
+            return NoContent();
+        }
 
+        [HttpDelete("{id}")]
+        public IActionResult Remove(int id)
+        {
+            var product = _productService.GetByIdAsync(id).Result;
+            _productService.Remove(product);
+            return NoContent();
+        }
+        
+        
 
     }
 }
