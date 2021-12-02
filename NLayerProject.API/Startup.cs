@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NLayerProject.API.Filters;
 using NLayerProject.Core.DataAccess.EntityFramework;
 using NLayerProject.Core.Services;
 using NLayerProject.Core.UnitOfWork;
@@ -41,12 +42,17 @@ namespace NLayerProject.API
                 });
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<NotFoundFilter>();
             services.AddScoped(typeof(IEfRepository<>),typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            services.AddControllers(o =>
+            {
+                o.Filters.Add(new ValidationFilter());
+            });
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

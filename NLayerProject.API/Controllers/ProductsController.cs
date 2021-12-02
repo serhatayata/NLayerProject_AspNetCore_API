@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace NLayerProject.API.Controllers
 {
     [Route("api/[controller]")]
+    //[ValidationFilter] (At Startup Globally)
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -29,20 +30,21 @@ namespace NLayerProject.API.Controllers
             var products = await _productService.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<ProductDTO>>(products));
         }
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var product = await _productService.GetByIdAsync(id);
             return Ok(_mapper.Map<ProductDTO>(product));
         }
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpGet("{id}/category")]
         public async Task<IActionResult> GetWithCategoryById(int id)
         {
             var product = await _productService.GetWithCategoryByIdAsync(id);
             return Ok(_mapper.Map<ProductWithCategoryDTO>(product));
         }
-        [ValidationFilter]
+       
         [HttpPost]
         public async Task<IActionResult> Save(ProductDTO entity)
         {
@@ -56,7 +58,7 @@ namespace NLayerProject.API.Controllers
             var product = _productService.Update(_mapper.Map<Product>(productDTO));
             return NoContent();
         }
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpDelete("{id}")]
         public IActionResult Remove(int id)
         {
