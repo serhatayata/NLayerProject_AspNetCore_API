@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using NLayerProject.API.Filters;
 using NLayerProject.Core.DataAccess.EntityFramework;
 using NLayerProject.Core.Services;
@@ -15,7 +18,9 @@ using NLayerProject.Core.UnitOfWork;
 using NLayerProject.Data.Context;
 using NLayerProject.Data.Repository.EntityFramework;
 using NLayerProject.Data.UnitOfWorks;
+using NLayerProject.Entity.DTOs;
 using NLayerProject.Service.Services;
+using NLayerProject.API.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +78,7 @@ namespace NLayerProject.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NLayerProject.API v1"));
             }
 
+            app.UseCustomException();
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -10,12 +10,11 @@ namespace NLayerProject.Entity.DTOs
 {
     public class ProductDTO
     {
-        [Key]
         public int ProductID { get; set; }
         [Required(ErrorMessage = "{0} alanı gereklidir")]
         public string Name { get; set; }
         [Range(1,int.MaxValue,ErrorMessage ="{0} alanı 1'den büyük bir değer olmalıdır.")]
-        public int Stock { get; set; }
+        public int Stock { get; set; } 
         [Range(1, double.MaxValue, ErrorMessage = "{0} alanı 1'den büyük bir değer olmalıdır.")]
         public decimal Price { get; set; }
         public int CategoryID { get; set; }
