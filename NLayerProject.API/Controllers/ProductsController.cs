@@ -51,7 +51,6 @@ namespace NLayerProject.API.Controllers
             var newProduct = await _productService.AddASync(_mapper.Map<Product>(entity));
             return Created(String.Empty, _mapper.Map<ProductDTO>(newProduct));
         }
-
         [HttpPut]
         public IActionResult Update(ProductDTO productDTO)
         {
