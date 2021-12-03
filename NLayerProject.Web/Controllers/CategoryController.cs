@@ -33,7 +33,7 @@ namespace NLayerProject.Web.Controllers
         public async Task<IActionResult> Create(CategoryDTO category)
         {
             await _categoryService.AddASync(_mapper.Map<Category>(category));
-            return RedirectToAction("Index", "Category");
+            return RedirectToAction("Index", "Category"); 
         }
         [HttpGet]
         public async Task<IActionResult> Update(int id)
