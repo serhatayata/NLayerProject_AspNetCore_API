@@ -12,6 +12,7 @@ using NLayerProject.Data.Context;
 using NLayerProject.Data.Repository.EntityFramework;
 using NLayerProject.Data.UnitOfWorks;
 using NLayerProject.Service.Services;
+using NLayerProject.Web.ApiServices.Category;
 using NLayerProject.Web.Filters;
 using NLayerProject.Web.ViewModels;
 using System;
@@ -32,6 +33,10 @@ namespace NLayerProject.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<CategoryApiService>(options =>
+            {
+                options.BaseAddress = new Uri(Configuration["baseURL"]);
+            });
             services.AddControllersWithViews();
             services.AddScoped(typeof(IEfRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
