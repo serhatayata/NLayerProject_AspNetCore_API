@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NLayerProject.Core.Services;
 using NLayerProject.Entity.DTOs;
 using NLayerProject.Entity.Entities;
+using NLayerProject.Web.ApiServices.Category;
+using NLayerProject.Web.ApiServices.Product;
 using NLayerProject.Web.Filters;
 using NLayerProject.Web.ViewModels;
 using System;
@@ -15,27 +16,27 @@ namespace NLayerProject.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
+        private readonly ProductApiService _productApiService;
+        private readonly CategoryApiService _categoryApiService;
         private readonly IMapper _mapper;
         private readonly CategoryViewModel _categoryViewModel;
-        public ProductController(IProductService productService,ICategoryService categoryService, IMapper mapper,CategoryViewModel categoryViewModel)
+        public ProductController(ProductApiService productApiService,CategoryApiService categoryApiService, IMapper mapper,CategoryViewModel categoryViewModel)
         {
-            _productService = productService;
-            _categoryService = categoryService;
+            _productApiService = productApiService;
+            _categoryApiService = categoryApiService;
             _mapper = mapper;
             _categoryViewModel = categoryViewModel;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            
-            var products = await _productService.GetAllAsync();
+            var products = await _productApiService.GetAllAsync();
             return View(_mapper.Map<IEnumerable<ProductDTO>>(products));
         }
         [HttpGet]
         public IActionResult Create()
         {
-            var categories = _categoryService.GetAllAsync().Result;
+            var categories = _categoryApiService.GetAllAsync().Result;
             IEnumerable<CategoryDTO> categoryList = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
             IEnumerable<CategoryDTO> AllCategories = categoryList.ToList();
             SelectList categorySelectList = new SelectList(categoryList,dataValueField:"CategoryID",dataTextField:"Name");
@@ -46,35 +47,33 @@ namespace NLayerProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProductDTO product)
         {
-            await _productService.AddASync(_mapper.Map<Product>(product));
+            await _productApiService.AddAsync(product);
             return RedirectToAction("Index","Product");
         }
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var categories = _categoryService.GetAllAsync().Result;
+            var categories = _categoryApiService.GetAllAsync().Result;
             IEnumerable<CategoryDTO> categoryList = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
             IEnumerable<CategoryDTO> AllCategories = categoryList.ToList();
             SelectList categorySelectList = new SelectList(categoryList, dataValueField: "CategoryID", dataTextField: "Name");
             _categoryViewModel.CategorySelectList = categorySelectList;
             ViewBag.selectList = _categoryViewModel;
-            var product = await _productService.GetByIdAsync(id);
+            var product = await _productApiService.GetByIdAsync(id);
             var productValue = _mapper.Map<ProductDTO>(product);
             return View(productValue);
         }
         [HttpPost]
-        public IActionResult Update(ProductDTO product)
+        public async Task<IActionResult> Update(ProductDTO product)
         {
-            var updatedProduct = _mapper.Map<Product>(product);
-            _productService.Update(updatedProduct);
+            await _productApiService.Update(product);
             return RedirectToAction("Index","Product");
         }
         [ServiceFilter(typeof(NotFoundFilterProduct))]
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var deletedProduct = _productService.GetByIdAsync(id).Result;
-            _productService.Remove(deletedProduct);
+            await _productApiService.Delete(id);
             return RedirectToAction("Index", "Product");
         }
     }

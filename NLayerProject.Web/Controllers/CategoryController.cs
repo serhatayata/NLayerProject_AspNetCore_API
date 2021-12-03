@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using NLayerProject.Core.Services;
 using NLayerProject.Entity.DTOs;
 using NLayerProject.Entity.Entities;
 using NLayerProject.Web.ApiServices.Category;
@@ -14,12 +13,10 @@ namespace NLayerProject.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _categoryService;
         private readonly CategoryApiService _categoryApiService;
         private readonly IMapper _mapper;
-        public CategoryController(ICategoryService categoryService,IMapper mapper,CategoryApiService categoryApiService)
+        public CategoryController(IMapper mapper,CategoryApiService categoryApiService)
         {
-            _categoryService = categoryService;
             _categoryApiService = categoryApiService;
             _mapper = mapper;
         }
@@ -41,27 +38,22 @@ namespace NLayerProject.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
+            var category = await _categoryApiService.GetByIdAsync(id);
             return View(_mapper.Map<CategoryDTO>(category));
         }
         [HttpPost]
-        public IActionResult Update(CategoryDTO categoryDTO)
+        public async Task<IActionResult> Update(CategoryDTO categoryDTO)
         {
-            _categoryService.Update(_mapper.Map<Category>(categoryDTO));
+            await _categoryApiService.Update(categoryDTO);
             return RedirectToAction("Index", "Category");
         }
         [ServiceFilter(typeof(NotFoundFilter))]
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var category = _categoryService.GetByIdAsync(id).Result;
-            _categoryService.Remove(category);
+            await _categoryApiService.Delete(id);
             return RedirectToAction("Index", "Category");
         }
-
-
-
-
 
     }
 }
