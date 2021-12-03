@@ -10,7 +10,7 @@ namespace NLayerProject.Entity.DTOs
     public class CategoryDTO
     {
         public int CategoryID { get; set; }
-        [Required]
+        [Required(ErrorMessage ="{0} cannot be empty.")]
         public string Name { get; set; }
     }
 }

@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NLayerProject.Core.Services;
-using NLayerProject.Data.Context;
 using NLayerProject.Entity.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NLayerProject.API.Filters
+namespace NLayerProject.Web.Filters
 {
-    public class NotFoundFilter:ActionFilterAttribute
+    public class NotFoundFilterProduct:ActionFilterAttribute
     {
         private readonly IProductService _productService;
-        public NotFoundFilter(IProductService productService)
+        public NotFoundFilterProduct(IProductService productService)
         {
             _productService = productService;
         }
@@ -29,9 +28,8 @@ namespace NLayerProject.API.Filters
             else
             {
                 ErrorDTO errorDTO = new ErrorDTO();
-                errorDTO.Status = 404;
                 errorDTO.Errors.Add($"ID = {id} product cannot be found in the database");
-                context.Result = new NotFoundObjectResult(errorDTO);
+                context.Result = new RedirectToActionResult("Error", "Home", errorDTO);
             }
         }
     }

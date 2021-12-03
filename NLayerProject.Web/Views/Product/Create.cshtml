@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+@model ProductDTO
+@{ 
+    CategoryViewModel values = ViewBag.selectList;
+}
+<h1>Create Product</h1>
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Product" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter a product name" />
+                <span asp-validation-for="Name" class="text-danger mt-2"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="Enter a price" />
+                <span asp-validation-for="Price" class="text-danger mt-2"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stock"></label>
+                <input asp-for="Stock" class="form-control" placeholder="Enter stock value" />
+                <span asp-validation-for="Stock" class="text-danger mt-2"></span>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <span asp-validation-for="@values.Category" class="text-danger mt-2"></span>
+                <select class="form-control" asp-for="CategoryID" asp-items="@values.CategorySelectList">
+                    <option value="">Please choose a category</option>
+                </select>
+
+            </div>
+
+            <button class="btn btn-primary" type="submit">Add</button>
+            <a class="btn btn-danger" type="button" asp-action="Index" asp-controller="Product">Cancel</a>
+        </form>
+    </div>
+</div>
+
+

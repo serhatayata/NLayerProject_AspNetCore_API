@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+@model CategoryDTO
+<h1>Create Category</h1>
+<br /><hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Category" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter a category name" />
+                <span asp-validation-for="Name" class="text-danger mt-2"></span>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+            <a class="btn btn-danger" type="button" asp-action="Index" asp-controller="Category">Cancel</a>
+        </form>
+    </div>
+</div>
+

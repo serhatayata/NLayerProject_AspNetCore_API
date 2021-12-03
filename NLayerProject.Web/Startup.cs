@@ -12,6 +12,8 @@ using NLayerProject.Data.Context;
 using NLayerProject.Data.Repository.EntityFramework;
 using NLayerProject.Data.UnitOfWorks;
 using NLayerProject.Service.Services;
+using NLayerProject.Web.Filters;
+using NLayerProject.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,10 @@ namespace NLayerProject.Web
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<NotFoundFilter>();
+            services.AddScoped<NotFoundFilterProduct>();
+            services.AddScoped<CategoryViewModel>();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<AppDbContext>(options =>
             { 
                 options.UseSqlServer(Configuration["ConnectionStrings:SqlConStr"].ToString(), a => {
