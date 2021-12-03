@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NLayerProject.Service\NLayerProject.Service.csproj" />
+    <ProjectReference Include="..\NLayerProject.Entity\NLayerProject.Entity.csproj" />
   </ItemGroup>
 
 </Project>

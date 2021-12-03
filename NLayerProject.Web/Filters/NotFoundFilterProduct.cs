@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NLayerProject.Core.Services;
 using NLayerProject.Entity.DTOs;
+using NLayerProject.Web.ApiServices.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +11,16 @@ namespace NLayerProject.Web.Filters
 {
     public class NotFoundFilterProduct:ActionFilterAttribute
     {
-        private readonly IProductService _productService;
-        public NotFoundFilterProduct(IProductService productService)
+        private readonly ProductApiService _productApiService;
+        public NotFoundFilterProduct(ProductApiService productApiService)
         {
-            _productService = productService;
+            _productApiService = productApiService;
         }
 
         public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             int id = (int)context.ActionArguments.Values.FirstOrDefault();
-            var product = await _productService.GetByIdAsync(id);
+            var product = await _productApiService.GetByIdAsync(id);
             if (product != null)
             {
                 await next();
