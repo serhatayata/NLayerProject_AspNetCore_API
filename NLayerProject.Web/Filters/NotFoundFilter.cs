@@ -8,31 +8,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NLayerProject.API.Filters
+namespace NLayerProject.Web.Filters
 {
     public class NotFoundFilter:ActionFilterAttribute
     {
-        private readonly IProductService _productService;
-        public NotFoundFilter(IProductService productService)
+        private readonly ICategoryService _categoryService;
+        public NotFoundFilter(ICategoryService categoryService)
         {
-            _productService = productService;
+            _categoryService = categoryService;
         }
 
         public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             int id = (int)context.ActionArguments.Values.FirstOrDefault();
-            var product = await _productService.GetByIdAsync(id);
-            if (product != null)
+            var category = await _categoryService.GetByIdAsync(id);
+            if (category != null)
             {
                 await next();
             }
             else
             {
                 ErrorDTO errorDTO = new ErrorDTO();
-                errorDTO.Status = 404;
-                errorDTO.Errors.Add($"ID = {id} product cannot be found in the database");
-                context.Result = new NotFoundObjectResult(errorDTO);
+                errorDTO.Errors.Add($"ID = {id} category cannot be found in the database");
+                context.Result = new RedirectToActionResult("Error", "Home",errorDTO);
             }
+
+
         }
+
+
+
+
+
+
     }
 }
