@@ -53,14 +53,14 @@ namespace NLayerProject.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var categories = _categoryApiService.GetAllAsync().Result;
+             var categories = _categoryApiService.GetAllAsync().Result;
             IEnumerable<CategoryDTO> categoryList = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
             IEnumerable<CategoryDTO> AllCategories = categoryList.ToList();
             SelectList categorySelectList = new SelectList(categoryList, dataValueField: "CategoryID", dataTextField: "Name");
             _categoryViewModel.CategorySelectList = categorySelectList;
             ViewBag.selectList = _categoryViewModel;
             var product = await _productApiService.GetByIdAsync(id);
-            var productValue = _mapper.Map<ProductDTO>(product);
+            var productValue = product;
             return View(productValue);
         }
         [HttpPost]
