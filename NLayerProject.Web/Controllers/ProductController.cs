@@ -53,7 +53,7 @@ namespace NLayerProject.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var categories = _categoryApiService.GetAllAsync().Result;
+             var categories = _categoryApiService.GetAllAsync().Result;
             IEnumerable<CategoryDTO> categoryList = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
             IEnumerable<CategoryDTO> AllCategories = categoryList.ToList();
             SelectList categorySelectList = new SelectList(categoryList, dataValueField: "CategoryID", dataTextField: "Name");
