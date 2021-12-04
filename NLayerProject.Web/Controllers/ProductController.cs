@@ -60,7 +60,7 @@ namespace NLayerProject.Web.Controllers
             _categoryViewModel.CategorySelectList = categorySelectList;
             ViewBag.selectList = _categoryViewModel;
             var product = await _productApiService.GetByIdAsync(id);
-            var productValue = _mapper.Map<ProductDTO>(product);
+            var productValue = product;
             return View(productValue);
         }
         [HttpPost]

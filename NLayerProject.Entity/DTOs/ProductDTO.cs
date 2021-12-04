@@ -14,7 +14,7 @@ namespace NLayerProject.Entity.DTOs
         [Required(ErrorMessage = "{0} is must")]
         public string Name { get; set; }
         [Range(1,int.MaxValue,ErrorMessage ="{0} has to be more than 1")]
-        public int Stock { get; set; } 
+        public int Stock { get; set; }
         [Range(1, double.MaxValue, ErrorMessage = "{0} has to be more than 1")]
         public decimal Price { get; set; }
         public int CategoryID { get; set; }

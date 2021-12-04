@@ -34,7 +34,6 @@ namespace NLayerProject.Web
             {
                 options.BaseAddress = new Uri(Configuration["baseURL"]);
             });
-            services.AddControllersWithViews();
             services.AddScoped<NotFoundFilter>();
             services.AddScoped<NotFoundFilterProduct>();
             services.AddScoped<CategoryViewModel>();
