@@ -9,8 +9,8 @@ using NLayerProject.Data.Context;
 namespace NLayerProject.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211129163844_init")]
-    partial class init
+    [Migration("20211205123300_update1")]
+    partial class update1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,28 @@ namespace NLayerProject.Data.Migrations
                             IsDeleted = false,
                             Name = "Defterler"
                         });
+                });
+
+            modelBuilder.Entity("NLayerProject.Entity.Entities.Person", b =>
+                {
+                    b.Property<int>("PersonID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Surname")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("PersonID");
+
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("NLayerProject.Entity.Entities.Product", b =>
