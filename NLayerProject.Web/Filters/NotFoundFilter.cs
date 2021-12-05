@@ -30,11 +30,8 @@ namespace NLayerProject.Web.Filters
                 ErrorDTO errorDTO = new ErrorDTO();
                 errorDTO.Errors.Add($"ID = {id} category cannot be found in the database");
                 context.Result = new RedirectToActionResult("Error", "Home",errorDTO);
-            }
-
-
+            }   
         }
-
 
 
 
